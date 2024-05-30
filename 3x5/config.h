@@ -20,3 +20,6 @@
 
 /* Trackball angle adjustment. */
 #define ROTATIONAL_TRANSFORM_ANGLE -25
+#define USB_POLLING_INTERVAL_MS 1  // (기본값 10)
+#define PMW3360_LIFTOFF_DISTANCE 0x03
+#define CHARYBDIS_DRAGSCROLL_REVERSE_Y

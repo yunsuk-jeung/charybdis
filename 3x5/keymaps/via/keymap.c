@@ -20,6 +20,14 @@
 #    include "timer.h"
 #endif // CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_ENABLE
 
+enum custom_keycodes {
+  M_PRN = SAFE_RANGE,
+  M_BRC,
+  M_CBR,
+  M_RAR,
+  M_CKD,
+};
+
 enum charybdis_keymap_layers {
     LAYER_BASE = 0,
     LAYER_FUNCTION,
@@ -94,7 +102,7 @@ static uint16_t auto_pointer_layer_timer = 0;
     _______________DEAD_HALF_ROW_______________, KC_PSCR,   KC_F7,   KC_F8,   KC_F9,  KC_F12, \
     ______________HOME_ROW_GACS_L______________, KC_SCRL,   KC_F4,   KC_F5,   KC_F6,  KC_F11, \
     _______________DEAD_HALF_ROW_______________, KC_PAUS,   KC_F1,   KC_F2,   KC_F3,  KC_F10, \
-                      XXXXXXX, XXXXXXX, _______, XXXXXXX, XXXXXXX
+                      XXXXXXX, XXXXXXX, _______, XXXXXXX, KC_F18
 
 /**
  * \brief Media layer.
@@ -103,16 +111,16 @@ static uint16_t auto_pointer_layer_timer = 0;
  * symmetrical to accomodate the left- and right-hand trackball.
  */
 #define LAYOUT_LAYER_MEDIA                                                                    \
-    XXXXXXX,RGB_RMOD, RGB_TOG, RGB_MOD, XXXXXXX, XXXXXXX,RGB_RMOD, RGB_TOG, RGB_MOD, XXXXXXX, \
-    KC_MPRV, KC_VOLD, KC_MUTE, KC_VOLU, KC_MNXT, KC_MPRV, KC_VOLD, KC_MUTE, KC_VOLU, KC_MNXT, \
-    XXXXXXX, XXXXXXX, XXXXXXX, EE_CLR,  QK_BOOT, QK_BOOT, EE_CLR,  XXXXXXX, XXXXXXX, XXXXXXX, \
-                      _______, KC_MPLY, KC_MSTP, KC_MSTP, KC_MPLY
+    XXXXXXX,       XXXXXXX, XXXXXXX,    XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
+    XXXXXXX,       XXXXXXX, M_CKD ,     XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
+    LCTL(KC_Z), LCTL(KC_X), LCTL(KC_C), LCTL(KC_V), XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
+                            _______,    KC_MPLY,    KC_MSTP, KC_MSTP, KC_MPLY
 
 /** \brief Mouse emulation and pointer functions. */
 #define LAYOUT_LAYER_POINTER                                                                  \
-    XXXXXXX, XXXXXXX, XXXXXXX, DPI_MOD, S_D_MOD, S_D_MOD, DPI_MOD, XXXXXXX, XXXXXXX, XXXXXXX, \
+    XXXXXXX, S_D_RMOD, DPI_RMOD, DPI_MOD, S_D_MOD, S_D_MOD, DPI_MOD, DPI_RMOD, S_D_RMOD, XXXXXXX, \
     ______________HOME_ROW_GACS_L______________, ______________HOME_ROW_GACS_R______________, \
-    _______, DRGSCRL, SNIPING, EE_CLR,  QK_BOOT, QK_BOOT, EE_CLR,  SNIPING, DRGSCRL, _______, \
+    _______,  SNIPING, DRGSCRL, XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX,  DRGSCRL,SNIPING, _______, \
                       KC_BTN2, KC_BTN1, KC_BTN3, KC_BTN3, KC_BTN1
 
 /**
@@ -124,9 +132,9 @@ static uint16_t auto_pointer_layer_timer = 0;
  * base layer to avoid having to layer change mid edit and to enable auto-repeat.
  */
 #define LAYOUT_LAYER_NAVIGATION                                                               \
-    _______________DEAD_HALF_ROW_______________, _______________DEAD_HALF_ROW_______________, \
+    _______________DEAD_HALF_ROW_______________, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
     ______________HOME_ROW_GACS_L______________, KC_CAPS, KC_LEFT, KC_DOWN,   KC_UP, KC_RGHT, \
-    _______________DEAD_HALF_ROW_______________,  KC_INS, KC_HOME, KC_PGDN, KC_PGUP,  KC_END, \
+    XXXXXXX, XXXXXXX,  KC_DEL, XXXXXXX, XXXXXXX, KC_PGUP, KC_HOME, KC_DEL,   KC_END, KC_PGDN,\
                       XXXXXXX, _______, XXXXXXX,  KC_ENT, KC_DEL
 
 /**
@@ -137,10 +145,10 @@ static uint16_t auto_pointer_layer_timer = 0;
  * `KC_DOT` is duplicated from the base layer.
  */
 #define LAYOUT_LAYER_NUMERAL                                                                  \
-    KC_LBRC,    KC_7,    KC_8,    KC_9, KC_RBRC, _______________DEAD_HALF_ROW_______________, \
-    KC_QUOT,    KC_4,    KC_5,    KC_6,  KC_EQL, ______________HOME_ROW_GACS_R______________, \
-     KC_GRV,    KC_1,    KC_2,    KC_3, KC_BSLS, _______________DEAD_HALF_ROW_______________, \
-                       KC_DOT,    KC_0, KC_MINS, XXXXXXX, _______
+    KC_LBRC,    KC_9,  KC_8,   KC_7,  KC_RBRC, XXXXXXX,   M_PRN,   M_CBR,   M_BRC, XXXXXXX, \
+    KC_QUOT,    KC_6,  KC_5,   KC_4,  KC_EQL,  ______________HOME_ROW_GACS_R______________, \
+     KC_GRV,    KC_3,  KC_2,   KC_1,  KC_BSLS, XXXXXXX, XXXXXXX,   M_RAR, XXXXXXX, XXXXXXX, \
+                       KC_DOT, KC_0,  KC_MINS, XXXXXXX, _______
 
 /**
  * \brief Symbols layer.
@@ -150,10 +158,10 @@ static uint16_t auto_pointer_layer_timer = 0;
  * `KC_RPRN`.
  */
 #define LAYOUT_LAYER_SYMBOLS                                                                  \
-    KC_LCBR, KC_AMPR, KC_ASTR, KC_LPRN, KC_RCBR, _______________DEAD_HALF_ROW_______________, \
-    KC_COLN,  KC_DLR, KC_PERC, KC_CIRC, KC_PLUS, ______________HOME_ROW_GACS_R______________, \
-    KC_TILD, KC_EXLM,   KC_AT, KC_HASH, KC_PIPE, _______________DEAD_HALF_ROW_______________, \
-                      KC_LPRN, KC_RPRN, KC_UNDS, _______, XXXXXXX
+    KC_LCBR,  KC_LPRN, KC_ASTR, KC_AMPR, KC_RCBR, _______________DEAD_HALF_ROW_______________, \
+    KC_COLN,  KC_CIRC, KC_PERC,  KC_DLR, KC_PLUS, ______________HOME_ROW_GACS_R______________, \
+    KC_TILD,  KC_HASH,   KC_AT, KC_EXLM, KC_PIPE, _______________DEAD_HALF_ROW_______________, \
+                       KC_LPRN, KC_RPRN, KC_UNDS, _______, XXXXXXX
 
 /**
  * \brief Add Home Row mod to a layout.
@@ -193,10 +201,10 @@ static uint16_t auto_pointer_layer_timer = 0;
     ...)                                                               \
              L00,         L01,         L02,         L03,         L04,  \
              R05,         R06,         R07,         R08,         R09,  \
-             L10,         L11,         L12,         L13,         L14,  \
-             R15,         R16,         R17,         R18,         R19,  \
-      _L_PTR(L20),        L21,         L22,         L23,         L24,  \
-             R25,         R26,         R27,         R28,  _L_PTR(R29), \
+             L10,         L11,         L12,         L13,         (L14),  \
+             (R15),       R16,         R17,         R18,         R19,  \
+             L20,         L21,         L22,         _L_PTR(L23), L24,  \
+             (R25),       _L_PTR(R26), R27,         R28,         (R29), \
       __VA_ARGS__
 #define POINTER_MOD(...) _POINTER_MOD(__VA_ARGS__)
 
@@ -255,3 +263,38 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 // rgb_matrix.c.
 void rgb_matrix_update_pwm_buffers(void);
 #endif
+
+bool process_record_user(uint16_t keycode, keyrecord_t* record) {
+  switch (keycode) {
+  case M_PRN:  //Types [], {}, or <> and puts cursor between braces.
+    if (record->event.pressed) {
+      SEND_STRING("()");
+      tap_code(KC_LEFT);  //Move cursor between braces.
+    }
+    return false;
+  case M_BRC:  //Types [], {}, or <> and puts cursor between braces.
+    if (record->event.pressed) {
+      SEND_STRING("[]");
+      tap_code(KC_LEFT);  //Move cursor between braces.
+    }
+    return false;
+  case M_CBR:  //Types [], {}, or <> and puts cursor between braces.
+    if (record->event.pressed) {
+      SEND_STRING("{}");
+      tap_code(KC_LEFT);  //Move cursor between braces.
+    }
+    return false;
+  case M_RAR:
+    if (record->event.pressed) {
+      SEND_STRING("->");
+    }
+    return false;
+  case M_CKD:
+    if (record->event.pressed) {
+      SEND_STRING(SS_LCTL("kd"));
+    }
+    return false;
+  }
+
+  return true;
+}
