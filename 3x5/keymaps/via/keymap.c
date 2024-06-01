@@ -26,6 +26,7 @@ enum custom_keycodes {
   M_CBR,
   M_RAR,
   M_CKD,
+  M_CSF,
 };
 
 enum charybdis_keymap_layers {
@@ -112,7 +113,7 @@ static uint16_t auto_pointer_layer_timer = 0;
  */
 #define LAYOUT_LAYER_MEDIA                                                                    \
     XXXXXXX,       XXXXXXX, XXXXXXX,    XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
-    XXXXXXX,       XXXXXXX, M_CKD ,     XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
+    XXXXXXX,       XXXXXXX, M_CKD ,     M_CSF  ,    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
     LCTL(KC_Z), LCTL(KC_X), LCTL(KC_C), LCTL(KC_V), XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
                             _______,    KC_MPLY,    KC_MSTP, KC_MSTP, KC_MPLY
 
@@ -132,9 +133,9 @@ static uint16_t auto_pointer_layer_timer = 0;
  * base layer to avoid having to layer change mid edit and to enable auto-repeat.
  */
 #define LAYOUT_LAYER_NAVIGATION                                                               \
-    _______________DEAD_HALF_ROW_______________, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
-    ______________HOME_ROW_GACS_L______________, KC_CAPS, KC_LEFT, KC_DOWN,   KC_UP, KC_RGHT, \
-    XXXXXXX, XXXXXXX,  KC_DEL, XXXXXXX, XXXXXXX, KC_PGUP, KC_HOME, KC_DEL,   KC_END, KC_PGDN,\
+    _______________DEAD_HALF_ROW_______________, XXXXXXX, XXXXXXX, KC_UP,   XXXXXXX, XXXXXXX, \
+    ______________HOME_ROW_GACS_L______________, KC_CAPS, KC_LEFT, KC_DOWN, KC_RGHT, XXXXXXX , \
+    XXXXXXX, XXXXXXX,  KC_DEL, XXXXXXX, XXXXXXX, KC_PGUP, KC_HOME, KC_DEL,  KC_END,  KC_PGDN,\
                       XXXXXXX, _______, XXXXXXX,  KC_ENT, KC_DEL
 
 /**
@@ -294,6 +295,19 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
       SEND_STRING(SS_LCTL("kd"));
     }
     return false;
+  case M_CSF:
+    if (record->event.pressed) {
+       // when keycode CTRL_SHIFT_F is pressed
+       register_code(KC_LCTL);
+       register_code(KC_LSFT);
+       register_code(KC_F);
+     } else {
+         // when keycode CTRL_SHIFT_F is released
+        unregister_code(KC_LCTL);
+        unregister_code(KC_LSFT);
+        unregister_code(KC_F);
+      }
+      return false; // Skip all further processing of this key
   }
 
   return true;
