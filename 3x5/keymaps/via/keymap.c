@@ -160,7 +160,7 @@ static uint16_t auto_pointer_layer_timer = 0;
  */
 #define LAYOUT_LAYER_SYMBOLS                                                                  \
     KC_LCBR,  KC_LPRN, KC_ASTR, KC_AMPR, KC_RCBR, _______________DEAD_HALF_ROW_______________, \
-    KC_COLN,  KC_CIRC, KC_PERC,  KC_DLR, KC_PLUS, ______________HOME_ROW_GACS_R______________, \
+    KC_DQUO,  KC_CIRC, KC_PERC,  KC_DLR, KC_PLUS, ______________HOME_ROW_GACS_R______________, \
     KC_TILD,  KC_HASH,   KC_AT, KC_EXLM, KC_PIPE, _______________DEAD_HALF_ROW_______________, \
                        KC_LPRN, KC_RPRN, KC_UNDS, _______, XXXXXXX
 
@@ -270,19 +270,19 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
   case M_PRN:  //Types [], {}, or <> and puts cursor between braces.
     if (record->event.pressed) {
       SEND_STRING("()");
-      tap_code(KC_LEFT);  //Move cursor between braces.
+      // tap_code(KC_LEFT);  //Move cursor between braces.
     }
     return false;
   case M_BRC:  //Types [], {}, or <> and puts cursor between braces.
     if (record->event.pressed) {
       SEND_STRING("[]");
-      tap_code(KC_LEFT);  //Move cursor between braces.
+      // tap_code(KC_LEFT);  //Move cursor between braces.
     }
     return false;
   case M_CBR:  //Types [], {}, or <> and puts cursor between braces.
     if (record->event.pressed) {
       SEND_STRING("{}");
-      tap_code(KC_LEFT);  //Move cursor between braces.
+      // tap_code(KC_LEFT);  //Move cursor between braces.
     }
     return false;
   case M_RAR:
