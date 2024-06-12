@@ -21,12 +21,12 @@
 #endif // CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_ENABLE
 
 enum custom_keycodes {
-  M_PRN = SAFE_RANGE,
-  M_BRC,
-  M_CBR,
-  M_RAR,
-  M_CKD,
-  M_CSF,
+    M_PRN = SAFE_RANGE,
+    M_BRC,
+    M_CBR,
+    M_RAR,
+    M_CKD,
+    M_CSF,
 };
 
 enum charybdis_keymap_layers {
@@ -40,7 +40,7 @@ enum charybdis_keymap_layers {
 };
 
 // Automatically enable sniping-mode on the pointer layer.
-//#define CHARYBDIS_AUTO_SNIPING_ON_LAYER LAYER_POINTER
+// #define CHARYBDIS_AUTO_SNIPING_ON_LAYER LAYER_POINTER
 
 #ifdef CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_ENABLE
 static uint16_t auto_pointer_layer_timer = 0;
@@ -100,10 +100,10 @@ static uint16_t auto_pointer_layer_timer = 0;
  * from the base layer to enable auto-repeat.
  */
 #define LAYOUT_LAYER_FUNCTION                                                                 \
-    _______________DEAD_HALF_ROW_______________, KC_PSCR,   KC_F7,   KC_F8,   KC_F9,  KC_F12, \
-    ______________HOME_ROW_GACS_L______________, KC_SCRL,   KC_F4,   KC_F5,   KC_F6,  KC_F11, \
-    _______________DEAD_HALF_ROW_______________, KC_PAUS,   KC_F1,   KC_F2,   KC_F3,  KC_F10, \
-                      XXXXXXX, XXXXXXX, _______, XXXXXXX, KC_F18
+    _______________DEAD_HALF_ROW_______________, KC_PSCR,   KC_F9,   KC_F10,  KC_F11,  KC_F12, \
+    ______________HOME_ROW_GACS_L______________, KC_SCRL,   KC_F5,   KC_F6,   KC_F7,   KC_F8, \
+    _______________DEAD_HALF_ROW_______________, KC_F18,    KC_F1,   KC_F2,   KC_F3,   KC_F4, \
+                      XXXXXXX, XXXXXXX, _______, XXXXXXX, XXXXXXX
 
 /**
  * \brief Media layer.
@@ -146,9 +146,9 @@ static uint16_t auto_pointer_layer_timer = 0;
  * `KC_DOT` is duplicated from the base layer.
  */
 #define LAYOUT_LAYER_NUMERAL                                                                  \
-    KC_LBRC,    KC_9,  KC_8,   KC_7,  KC_RBRC, XXXXXXX,   M_PRN,   M_CBR,   M_BRC, XXXXXXX, \
-    KC_QUOT,    KC_6,  KC_5,   KC_4,  KC_EQL,  ______________HOME_ROW_GACS_R______________, \
-     KC_GRV,    KC_3,  KC_2,   KC_1,  KC_BSLS, XXXXXXX, XXXXXXX,   M_RAR, XXXXXXX, XXXXXXX, \
+    KC_LBRC,    KC_9,  KC_8,   KC_7,  KC_RBRC, XXXXXXX, M_PRN,   KC_UP,   M_CBR,   M_BRC, \
+    KC_QUOT,    KC_6,  KC_5,   KC_4,  KC_EQL,  XXXXXXX, KC_LEFT, KC_DOWN, KC_RGHT, M_RAR, \
+     KC_GRV,    KC_3,  KC_2,   KC_1,  KC_BSLS, KC_PGUP, KC_HOME, KC_DEL,  KC_END,  KC_PGDN, \
                        KC_DOT, KC_0,  KC_MINS, XXXXXXX, _______
 
 /**
@@ -266,49 +266,49 @@ void rgb_matrix_update_pwm_buffers(void);
 #endif
 
 bool process_record_user(uint16_t keycode, keyrecord_t* record) {
-  switch (keycode) {
-  case M_PRN:  //Types [], {}, or <> and puts cursor between braces.
-    if (record->event.pressed) {
-      SEND_STRING("()");
-      // tap_code(KC_LEFT);  //Move cursor between braces.
+    switch (keycode) {
+        case M_PRN: // Types [], {}, or <> and puts cursor between braces.
+            if (record->event.pressed) {
+                SEND_STRING("()");
+                // tap_code(KC_LEFT);  //Move cursor between braces.
+            }
+            return false;
+        case M_BRC: // Types [], {}, or <> and puts cursor between braces.
+            if (record->event.pressed) {
+                SEND_STRING("[]");
+                // tap_code(KC_LEFT);  //Move cursor between braces.
+            }
+            return false;
+        case M_CBR: // Types [], {}, or <> and puts cursor between braces.
+            if (record->event.pressed) {
+                SEND_STRING("{}");
+                // tap_code(KC_LEFT);  //Move cursor between braces.
+            }
+            return false;
+        case M_RAR:
+            if (record->event.pressed) {
+                SEND_STRING("->");
+            }
+            return false;
+        case M_CKD:
+            if (record->event.pressed) {
+                SEND_STRING(SS_LCTL("kd"));
+            }
+            return false;
+        case M_CSF:
+            if (record->event.pressed) {
+                // when keycode CTRL_SHIFT_F is pressed
+                register_code(KC_LCTL);
+                register_code(KC_LSFT);
+                register_code(KC_F);
+            } else {
+                // when keycode CTRL_SHIFT_F is released
+                unregister_code(KC_LCTL);
+                unregister_code(KC_LSFT);
+                unregister_code(KC_F);
+            }
+            return false; // Skip all further processing of this key
     }
-    return false;
-  case M_BRC:  //Types [], {}, or <> and puts cursor between braces.
-    if (record->event.pressed) {
-      SEND_STRING("[]");
-      // tap_code(KC_LEFT);  //Move cursor between braces.
-    }
-    return false;
-  case M_CBR:  //Types [], {}, or <> and puts cursor between braces.
-    if (record->event.pressed) {
-      SEND_STRING("{}");
-      // tap_code(KC_LEFT);  //Move cursor between braces.
-    }
-    return false;
-  case M_RAR:
-    if (record->event.pressed) {
-      SEND_STRING("->");
-    }
-    return false;
-  case M_CKD:
-    if (record->event.pressed) {
-      SEND_STRING(SS_LCTL("kd"));
-    }
-    return false;
-  case M_CSF:
-    if (record->event.pressed) {
-       // when keycode CTRL_SHIFT_F is pressed
-       register_code(KC_LCTL);
-       register_code(KC_LSFT);
-       register_code(KC_F);
-     } else {
-         // when keycode CTRL_SHIFT_F is released
-        unregister_code(KC_LCTL);
-        unregister_code(KC_LSFT);
-        unregister_code(KC_F);
-      }
-      return false; // Skip all further processing of this key
-  }
 
-  return true;
+    return true;
 }
