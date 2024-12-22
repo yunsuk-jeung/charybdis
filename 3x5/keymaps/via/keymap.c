@@ -27,6 +27,7 @@ enum custom_keycodes {
     M_RAR,
     M_CKD,
     M_CSF,
+    M_GAC,
 };
 
 enum charybdis_keymap_layers {
@@ -112,7 +113,7 @@ static uint16_t auto_pointer_layer_timer = 0;
  * symmetrical to accomodate the left- and right-hand trackball.
  */
 #define LAYOUT_LAYER_MEDIA                                                                    \
-    XXXXXXX,       XXXXXXX, XXXXXXX,    XXXXXXX,    XXXXXXX, XXXXXXX, KC_F18, XXXXXXX, XXXXXXX, XXXXXXX, \
+    XXXXXXX,       XXXXXXX, XXXXXXX,    XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
     XXXXXXX,       XXXXXXX, M_CKD ,     M_CSF  ,    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
     LCTL(KC_Z), LCTL(KC_X), LCTL(KC_C), LCTL(KC_V), XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
                             _______,    KC_MPLY,    KC_MSTP, KC_MSTP, KC_MPLY
@@ -121,7 +122,7 @@ static uint16_t auto_pointer_layer_timer = 0;
 #define LAYOUT_LAYER_POINTER                                                                  \
     XXXXXXX, S_D_RMOD, DPI_RMOD, DPI_MOD, S_D_MOD, S_D_MOD, DPI_MOD, DPI_RMOD, S_D_RMOD, XXXXXXX, \
     ______________HOME_ROW_GACS_L______________, ______________HOME_ROW_GACS_R______________, \
-    _______,  SNIPING, DRGSCRL, XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX,  DRGSCRL,SNIPING, _______, \
+    _______,  XXXXXXX, SNIPING, DRGSCRL,  XXXXXXX, XXXXXXX,  DRGSCRL, SNIPING, XXXXXXX, _______, \
                       KC_BTN2, KC_BTN1, KC_BTN3, KC_BTN3, KC_BTN1
 
 /**
@@ -133,7 +134,7 @@ static uint16_t auto_pointer_layer_timer = 0;
  * base layer to avoid having to layer change mid edit and to enable auto-repeat.
  */
 #define LAYOUT_LAYER_NAVIGATION                                                               \
-    _______________DEAD_HALF_ROW_______________, XXXXXXX, XXXXXXX, KC_UP,   XXXXXXX, XXXXXXX, \
+    _______________DEAD_HALF_ROW_______________, XXXXXXX, KC_F18 , KC_UP,   XXXXXXX, XXXXXXX, \
     ______________HOME_ROW_GACS_L______________, KC_CAPS, KC_LEFT, KC_DOWN, KC_RGHT, XXXXXXX , \
     XXXXXXX, XXXXXXX,  KC_DEL, XXXXXXX, XXXXXXX, KC_PGUP, KC_HOME, KC_DEL,  KC_END,  KC_PGDN,\
                       XXXXXXX, _______, XXXXXXX,  KC_ENT, KC_DEL
@@ -147,8 +148,8 @@ static uint16_t auto_pointer_layer_timer = 0;
  */
 #define LAYOUT_LAYER_NUMERAL                                                                  \
     KC_LBRC,    KC_9,  KC_8,   KC_7,  KC_RBRC, XXXXXXX, M_PRN,   KC_UP,   M_CBR,   M_BRC, \
-    KC_QUOT,    KC_6,  KC_5,   KC_4,  KC_EQL,  XXXXXXX, KC_LEFT, KC_DOWN, KC_RGHT, M_RAR, \
-     KC_GRV,    KC_3,  KC_2,   KC_1,  KC_BSLS, KC_PGUP, KC_HOME, KC_DEL,  KC_END,  KC_PGDN, \
+    KC_QUOT,    KC_6,  KC_5,   KC_4,  KC_EQL,  KC_LSFT, KC_LEFT, KC_DOWN, KC_RGHT, KC_UNDS, \
+     KC_GRV,    KC_3,  KC_2,   KC_1,  KC_BSLS, M_GAC  , M_RAR  , _______, _______, _______, \
                        KC_DOT, KC_0,  KC_MINS, XXXXXXX, _______
 
 /**
@@ -202,10 +203,10 @@ static uint16_t auto_pointer_layer_timer = 0;
     ...)                                                               \
              L00,         L01,         L02,         L03,         L04,  \
              R05,         R06,         R07,         R08,         R09,  \
-             L10,         L11,         L12,         L13,         (L14),  \
-             (R15),       R16,         R17,         R18,         R19,  \
-             L20,         L21,         L22,         _L_PTR(L23), L24,  \
-             (R25),       _L_PTR(R26), R27,         R28,         (R29), \
+             L10,         L11,         L12,         L13,         L14,  \
+             R15,         R16,         R17,         R18,         R19,  \
+             L20,         _L_PTR(L21), L22,         L23,         L24,  \
+             R25,         R26,         R27,         _L_PTR(R28), R29, \
       __VA_ARGS__
 #define POINTER_MOD(...) _POINTER_MOD(__VA_ARGS__)
 
@@ -306,6 +307,19 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
                 unregister_code(KC_LCTL);
                 unregister_code(KC_LSFT);
                 unregister_code(KC_F);
+            }
+            return false; // Skip all further processing of this key
+        case M_GAC:
+            if (record->event.pressed) {
+                // 왼쪽 Shift, Ctrl, Alt 동시에 누르기
+                register_code(KC_LGUI);
+                register_code(KC_LCTL);
+                register_code(KC_LALT);
+            } else {
+                // 키 해제
+                unregister_code(KC_LGUI);
+                unregister_code(KC_LCTL);
+                unregister_code(KC_LALT);
             }
             return false; // Skip all further processing of this key
     }
