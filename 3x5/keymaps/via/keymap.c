@@ -113,8 +113,8 @@ static uint16_t auto_pointer_layer_timer = 0;
  * symmetrical to accomodate the left- and right-hand trackball.
  */
 #define LAYOUT_LAYER_MEDIA                                                                    \
-    XXXXXXX,       XXXXXXX, XXXXXXX,    XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
-    XXXXXXX,       XXXXXXX, M_CKD ,     M_CSF  ,    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
+    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
+    XXXXXXX,    XXXXXXX,    M_CKD,      M_CSF  ,    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
     LCTL(KC_Z), LCTL(KC_X), LCTL(KC_C), LCTL(KC_V), XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
                             _______,    KC_MPLY,    KC_MSTP, KC_MSTP, KC_MPLY
 
@@ -134,10 +134,10 @@ static uint16_t auto_pointer_layer_timer = 0;
  * base layer to avoid having to layer change mid edit and to enable auto-repeat.
  */
 #define LAYOUT_LAYER_NAVIGATION                                                               \
-    _______________DEAD_HALF_ROW_______________, XXXXXXX, KC_F18 , KC_UP,   XXXXXXX, XXXXXXX, \
-    ______________HOME_ROW_GACS_L______________, KC_CAPS, KC_LEFT, KC_DOWN, KC_RGHT, XXXXXXX , \
-    XXXXXXX, XXXXXXX,  KC_DEL, XXXXXXX, XXXXXXX, KC_PGUP, KC_HOME, KC_DEL,  KC_END,  KC_PGDN,\
-                      XXXXXXX, _______, XXXXXXX,  KC_ENT, KC_DEL
+    LAG(KC_Q), LAG(KC_W), LAG(KC_E), LAG(KC_R), LAG(KC_T),   XXXXXXX, KC_F18 , KC_UP,   LAG(KC_O), LAG(KC_P), \
+    ______________HOME_ROW_GACS_L______________,             KC_CAPS, KC_LEFT, KC_DOWN, KC_RGHT, XXXXXXX , \
+    LAG(KC_Z), LAG(KC_X), KC_DEL,    LAG(KC_V), LAG(KC_B),   KC_PGUP, KC_HOME, KC_DEL,  KC_END,  KC_PGDN,\
+                          XXXXXXX,    _______,    XXXXXXX, KC_ENT, KC_DEL
 
 /**
  * \brief Numeral layout.
