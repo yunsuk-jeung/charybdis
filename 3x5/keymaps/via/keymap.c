@@ -35,7 +35,7 @@ enum combos {
   TY_CAPS,
 };
 
-const uint16_t PROGMEM jk_f18[] = {KC_J, KC_K, COMBO_END};
+const uint16_t PROGMEM jk_f18[] = {LSFT_T(KC_J), LCTL_T(KC_K), COMBO_END};
 const uint16_t PROGMEM ty_caps[] = {KC_T, KC_Y, COMBO_END};
 
 combo_t key_combos[] = {
@@ -93,8 +93,8 @@ static uint16_t auto_pointer_layer_timer = 0;
 
 /** Convenience row shorthands. */
 #define _______________DEAD_HALF_ROW_______________ XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
-#define ______________HOME_ROW_GACS_L______________ KC_LCTL, KC_LALT, KC_LGUI, KC_LSFT, XXXXXXX
-#define ______________HOME_ROW_GACS_R______________ XXXXXXX, KC_LSFT, KC_LGUI, KC_LALT, KC_LCTL
+#define ______________HOME_ROW_GACS_L______________ KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, XXXXXXX
+#define ______________HOME_ROW_GACS_R______________ XXXXXXX, KC_LSFT, KC_LCTL, KC_LALT, KC_LGUI
 #define ______________HOME_ROW_ARROW_R_____________ KC_LEFT, KC_DOWN, KC_UP  , KC_RGHT, XXXXXXX
 
 /*
@@ -150,7 +150,7 @@ static uint16_t auto_pointer_layer_timer = 0;
  */
 
 #define LAYOUT_LAYER_NAVIGATION                                                               \
-    LAG(KC_Q), LAG(KC_W), LAG(KC_E), LAG(KC_R), LAG(KC_T),   XXXXXXX, KC_F18 , KC_UP,   LAG(KC_O), LAG(KC_P), \
+    LAG(KC_Q), LAG(KC_W), LAG(KC_E), LAG(KC_R), LAG(KC_T),   XXXXXXX, KC_F18 , XXXXXXX,   LAG(KC_O), LAG(KC_P), \
     ______________HOME_ROW_GACS_L______________,             ______________HOME_ROW_ARROW_R_____________, \
     LCTL(KC_Z), LCTL(KC_X), LCTL(KC_C), LCTL(KC_V), LCTL(LSFT(KC_B)),   KC_PGUP, KC_HOME, KC_DEL,  KC_END,  KC_PGDN,\
                           XXXXXXX,    _______,    XXXXXXX, KC_ENT, KC_DEL
@@ -197,8 +197,8 @@ static uint16_t auto_pointer_layer_timer = 0;
     ...)                                                               \
              L00,         L01,         L02,         L03,         L04,  \
              R05,         R06,         R07,         R08,         R09,  \
-      LCTL_T(L10), LALT_T(L11), LGUI_T(L12), LSFT_T(L13),        L14,  \
-             R15,  LSFT_T(R16), LGUI_T(R17), LALT_T(R18), LCTL_T(R19), \
+      LGUI_T(L10), LALT_T(L11), LCTL_T(L12), LSFT_T(L13),        L14,  \
+             R15,  LSFT_T(R16), LCTL_T(R17), LALT_T(R18), LGUI_T(R19), \
       __VA_ARGS__
 #define HOME_ROW_MOD_GACS(...) _HOME_ROW_MOD_GACS(__VA_ARGS__)
 
