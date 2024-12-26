@@ -30,6 +30,20 @@ enum custom_keycodes {
     M_GAC,
 };
 
+enum combos {
+  JK_F18,
+  TY_CAPS,
+};
+
+const uint16_t PROGMEM jk_f18[] = {KC_J, KC_K, COMBO_END};
+const uint16_t PROGMEM ty_caps[] = {KC_T, KC_Y, COMBO_END};
+
+combo_t key_combos[] = {
+  [JK_F18] = COMBO(jk_f18, KC_F18),
+  [TY_CAPS] = COMBO(ty_caps, KC_CAPS),
+};
+
+
 enum charybdis_keymap_layers {
     LAYER_BASE = 0,
     LAYER_FUNCTION,
@@ -79,8 +93,9 @@ static uint16_t auto_pointer_layer_timer = 0;
 
 /** Convenience row shorthands. */
 #define _______________DEAD_HALF_ROW_______________ XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
-#define ______________HOME_ROW_GACS_L______________ KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, XXXXXXX
-#define ______________HOME_ROW_GACS_R______________ XXXXXXX, KC_LSFT, KC_LCTL, KC_LALT, KC_LGUI
+#define ______________HOME_ROW_GACS_L______________ KC_LCTL, KC_LALT, KC_LGUI, KC_LSFT, XXXXXXX
+#define ______________HOME_ROW_GACS_R______________ XXXXXXX, KC_LSFT, KC_LGUI, KC_LALT, KC_LCTL
+#define ______________HOME_ROW_ARROW_R_____________ KC_LEFT, KC_DOWN, KC_UP  , KC_RGHT, XXXXXXX
 
 /*
  * Layers used on the Charybdis Nano.
@@ -135,8 +150,8 @@ static uint16_t auto_pointer_layer_timer = 0;
  */
 #define LAYOUT_LAYER_NAVIGATION                                                               \
     LAG(KC_Q), LAG(KC_W), LAG(KC_E), LAG(KC_R), LAG(KC_T),   XXXXXXX, KC_F18 , KC_UP,   LAG(KC_O), LAG(KC_P), \
-    ______________HOME_ROW_GACS_L______________,             KC_CAPS, KC_LEFT, KC_DOWN, KC_RGHT, XXXXXXX , \
-    LAG(KC_Z), LAG(KC_X), KC_DEL,    LAG(KC_V), LAG(KC_B),   KC_PGUP, KC_HOME, KC_DEL,  KC_END,  KC_PGDN,\
+    ______________HOME_ROW_GACS_L______________,             ______________HOME_ROW_ARROW_R_____________, \
+    LAG(KC_Z), LAG(KC_X), LAG(KC_C),    LAG(KC_V), LAG(KC_B),   KC_PGUP, KC_HOME, KC_DEL,  KC_END,  KC_PGDN,\
                           XXXXXXX,    _______,    XXXXXXX, KC_ENT, KC_DEL
 
 /**
@@ -147,8 +162,8 @@ static uint16_t auto_pointer_layer_timer = 0;
  * `KC_DOT` is duplicated from the base layer.
  */
 #define LAYOUT_LAYER_NUMERAL                                                                  \
-    KC_LBRC,    KC_9,  KC_8,   KC_7,  KC_RBRC, XXXXXXX, M_PRN,   KC_UP,   M_CBR,   M_BRC, \
-    KC_QUOT,    KC_6,  KC_5,   KC_4,  KC_EQL,  KC_LSFT, KC_LEFT, KC_DOWN, KC_RGHT, KC_UNDS, \
+    KC_LBRC,    KC_9,  KC_8,   KC_7,  KC_RBRC, XXXXXXX, M_PRN,   XXXXXXX,   M_CBR,   M_BRC, \
+    KC_QUOT,    KC_6,  KC_5,   KC_4,  KC_EQL,  ______________HOME_ROW_ARROW_R_____________, \
      KC_GRV,    KC_3,  KC_2,   KC_1,  KC_BSLS, M_GAC  , M_RAR  , _______, _______, _______, \
                        KC_DOT, KC_0,  KC_MINS, XXXXXXX, _______
 
