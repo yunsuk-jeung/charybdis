@@ -128,10 +128,10 @@ static uint16_t auto_pointer_layer_timer = 0;
  * symmetrical to accomodate the left- and right-hand trackball.
  */
 #define LAYOUT_LAYER_MEDIA                                                                    \
-    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
-    XXXXXXX,    XXXXXXX,    M_CKD,      M_CSF  ,    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
-    LCTL(KC_Z), LCTL(KC_X), LCTL(KC_C), LCTL(KC_V), XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
-                            _______,    KC_MPLY,    KC_MSTP, KC_MSTP, KC_MPLY
+    LAG(KC_Q), LAG(KC_W), LAG(KC_E), LAG(KC_R), LAG(KC_T),    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
+    XXXXXXX, XXXXXXX,  M_CKD,  M_CSF  , XXXXXXX,              XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
+    LAG(KC_Z), LAG(KC_X), KC_DEL,  LAG(KC_V), LAG(KC_B),      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
+                               _______,    KC_MPLY,              KC_MSTP, KC_MSTP, KC_MPLY
 
 /** \brief Mouse emulation and pointer functions. */
 #define LAYOUT_LAYER_POINTER                                                                  \
@@ -148,10 +148,11 @@ static uint16_t auto_pointer_layer_timer = 0;
  * caps lock and insert on the inner column. Thumb keys are duplicated from the
  * base layer to avoid having to layer change mid edit and to enable auto-repeat.
  */
+
 #define LAYOUT_LAYER_NAVIGATION                                                               \
     LAG(KC_Q), LAG(KC_W), LAG(KC_E), LAG(KC_R), LAG(KC_T),   XXXXXXX, KC_F18 , KC_UP,   LAG(KC_O), LAG(KC_P), \
     ______________HOME_ROW_GACS_L______________,             ______________HOME_ROW_ARROW_R_____________, \
-    LAG(KC_Z), LAG(KC_X), LAG(KC_C),    LAG(KC_V), LAG(KC_B),   KC_PGUP, KC_HOME, KC_DEL,  KC_END,  KC_PGDN,\
+    LCTL(KC_Z), LCTL(KC_X), LCTL(KC_C), LCTL(KC_V), LCTL(LSFT(KC_B)),   KC_PGUP, KC_HOME, KC_DEL,  KC_END,  KC_PGDN,\
                           XXXXXXX,    _______,    XXXXXXX, KC_ENT, KC_DEL
 
 /**
@@ -196,8 +197,8 @@ static uint16_t auto_pointer_layer_timer = 0;
     ...)                                                               \
              L00,         L01,         L02,         L03,         L04,  \
              R05,         R06,         R07,         R08,         R09,  \
-      LGUI_T(L10), LALT_T(L11), LCTL_T(L12), LSFT_T(L13),        L14,  \
-             R15,  LSFT_T(R16), LCTL_T(R17), LALT_T(R18), LGUI_T(R19), \
+      LCTL_T(L10), LALT_T(L11), LGUI_T(L12), LSFT_T(L13),        L14,  \
+             R15,  LSFT_T(R16), LGUI_T(R17), LALT_T(R18), LCTL_T(R19), \
       __VA_ARGS__
 #define HOME_ROW_MOD_GACS(...) _HOME_ROW_MOD_GACS(__VA_ARGS__)
 
